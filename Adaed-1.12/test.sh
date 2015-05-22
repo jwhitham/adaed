@@ -2,7 +2,7 @@
 
 export PATH=$PWD:$PATH
 make clean
-make
+make install
 adacomp -s -nl testlib -b test
 adaexec testlib
 
