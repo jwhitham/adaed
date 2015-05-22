@@ -14,9 +14,13 @@ LFLAGS=-lg
 
 INSTALL = install
 
-BINDIR = /usr/local
-LIBDIR = /usr/local/lib
-MANDIR = /usr/local/man
+#BINDIR = /usr/local
+#LIBDIR = /usr/local/lib
+#MANDIR = /usr/local/man
+BASE=$(PWD)
+BINDIR = $(BASE)/outdir
+LIBDIR = $(BASE)/outdir
+MANDIR = $(BASE)/outdir
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h .ch .s .vbs
@@ -70,6 +74,8 @@ predef: $(EXECS)
 install : all predef
 	-mkdir $(BINDIR)
 	-mkdir $(LIBDIR)
+	-mkdir $(MANDIR)
+	-mkdir $(MANDIR)/manl
 	install adacomp adabind adaexec adalib $(BINDIR)
 	install adaprs adasem adagen $(LIBDIR)
 	install predefdir/0.axq $(LIBDIR)/predef.axq

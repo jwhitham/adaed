@@ -12,6 +12,10 @@
 #include <malloc.h>
 #include <ctype.h>
 #include <string.h>
+
+/* rename symbols */
+#define getline adaed_getline
+
 #include "constant.h"
 #include "kinds.h"
 

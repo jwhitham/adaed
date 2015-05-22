@@ -6,13 +6,5 @@
  * License for more details.
 
  */
-/* include <time.h> header file, accounting for BSD silliness */
-/* file config.h must be included before this one to set BSD properly */
-#ifndef _time_h
-#define _time_h
-#ifdef BSD
-#include <sys/time.h>
-#else
 #include <time.h>
-#endif
-#endif
+

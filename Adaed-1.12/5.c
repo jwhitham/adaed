@@ -37,7 +37,7 @@ id is defined in goto_statement but never used
 #define label_unreachable 0
 #define label_reachable 1
 
-static void new_symbol(Symbol, int, Symbol, Tuple, Symbol);
+void new_symbol(Symbol, int, Symbol, Tuple, Symbol);
 static Const get_static_nval(Node);
 static void replace_others(Node, Node, int, int);
 
@@ -130,7 +130,7 @@ Symbol slice_type(Node node, int is_renaming)	     /*;slice_type*/
 	return type_name;
 }
 
-static void new_symbol(Symbol new_name, int new_nature, Symbol new_type,
+void new_symbol(Symbol new_name, int new_nature, Symbol new_type,
   Tuple new_signature, Symbol new_alias)						/*;new_symbol*/
 {
 	NATURE(new_name)	= new_nature;
