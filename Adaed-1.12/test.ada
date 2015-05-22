@@ -1,8 +1,7 @@
 
-
+with Text_IO;
 procedure test is
 begin
-	null;
-	--Ada.Text_IO.Put_Line ("Hello");
+	Text_IO.Put_Line ("Hello World");
 end test;
 

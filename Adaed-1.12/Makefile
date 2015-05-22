@@ -81,8 +81,7 @@ install : all predef
 	install predefdir/0.axq $(LIBDIR)/predef.axq
 	install predefdir/0.trc $(LIBDIR)/predef.trc
 	install predefdir/lib $(LIBDIR)/predef.lib
-	-rm $(LIBDIR)/adabind
-	ln -s $(BINDIR)/adabind $(LIBDIR)/adabind
+	-cp $(BINDIR)/adabind $(LIBDIR)/adabind
 	install adabind.l adacomp.l adaed.l adaexec.l adalib.l $(MANDIR)/manl
 
 # remove all targets
