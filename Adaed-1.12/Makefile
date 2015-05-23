@@ -185,7 +185,8 @@ XINT_OBJS =	inta.o load.o
 
 adaexec: ivars.c inta_interface.o load_interface.o $(INT_OBJS)
 	$(LINKER) -o adaexec -g $(LFLAGS) $(INT_OBJS) $(XINT_OBJS) -lm >int.lm
-	ld -r -x load_interface.o $(LFLAGS) $(INT_OBJS) inta_interface.o >adaint.lm
+	ld -r -x load_interface.o -m elf_i386 \
+		$(INT_OBJS) inta_interface.o >adaint.lm
 	mv a.out adaint
 
 #inta_interface.o: inta.o

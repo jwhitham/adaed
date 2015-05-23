@@ -1332,13 +1332,6 @@ void resolve2(Node expn, Symbol context_typ)				  /*;resolve2*/
 		/* Now there should be only one possiblity left. */
 		valid_ops = N_NAMES(op_node);
 		if (set_size(valid_ops) != 1) {
-			if (cdebug2 > 2) {
-#ifdef TBSN
-				??(for nam in valid_ops)
-					TO_ERRFILE('OVERLOADS ', nam, SYMBTAB(nam));
-				end for;
-#endif
-			}
 			type_error(op_names, context_typ, set_size(valid_ops), op_node);
 			return;
 		}
