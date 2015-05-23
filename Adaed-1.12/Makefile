@@ -1,7 +1,7 @@
 # $Header: /griffin.a/ada/porter/all/RCS/Makefile,v 1.9 1992/02/04 19:19:56 porter Exp $
 
 CC= gcc
-CFLAGS=-g
+CFLAGS=-g -m32
 
 #CC= g++
 #CFLAGS=-g
@@ -10,7 +10,7 @@ CFLAGS=-g
 #CFLAGS=-g -I/usr/lang/include/CC
 
 LINKER= $(CC)
-LFLAGS=-lg
+LFLAGS=-lg -m32
 
 INSTALL = install
 
@@ -18,9 +18,9 @@ INSTALL = install
 #LIBDIR = /usr/local/lib
 #MANDIR = /usr/local/man
 BASE=$(PWD)
-BINDIR = $(BASE)/outdir
-LIBDIR = $(BASE)/outdir
-MANDIR = $(BASE)/outdir
+BINDIR = $(BASE)/installdir
+LIBDIR = $(BINDIR)
+MANDIR = $(BINDIR)
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h .ch .s .vbs
@@ -90,7 +90,7 @@ MADE_SRCS =	vars.c gvars.c ivars.c
 clean:
 	rm -f *.o *.lm core $(EXECS) adaint
 	rm -f  $(MADE_HDRS) $(MADE_SRCS)
-	rm -rf predefdir predef
+	rm -rf predefdir predef installdir testlib
 
 #---------------------------#
 # adalib FILES AND ACTIOONS #
@@ -99,7 +99,7 @@ clean:
 LIB_OBJS = adalib.o misc.o libf.o
 
 adalib: $(LIB_OBJS)
-	$(LINKER) -o adalib -g $(LIB_OBJS) -lm >lib.lm
+	$(LINKER) -o adalib -g $(LIB_OBJS) $(LFLAGS) -lm >lib.lm
 
 #---------------------------#
 # adacomp FILES AND ACTIONS #
@@ -108,7 +108,7 @@ adalib: $(LIB_OBJS)
 COMP_OBJS = adacomp.o adamrg.o misc.o
 
 adacomp: $(COMP_OBJS)
-	$(LINKER) -o adacomp -g $(COMP_OBJS) -lm >comp.lm
+	$(LINKER) -o adacomp -g $(COMP_OBJS) $(LFLAGS) -lm >comp.lm
 
 #--------------------------#
 # adaprs FILES AND ACTIONS #
@@ -119,7 +119,7 @@ PRS_OBJS =	action.o acttoks.o adalex.o adaprs.o adared.o debug.o errs.o \
 			prserr.o prsinit.o prsutil.o pspans.o recover.o reduce.o shift.o
 
 adaprs: $(PRS_OBJS) 	
-	$(LINKER) -o adaprs -g $(PRS_OBJS) -lm >prs.lm
+	$(LINKER) -o adaprs -g $(PRS_OBJS) $(LFLAGS) -lm >prs.lm
 
 #--------------------------#
 # adasem FILES and ACTIONS #
@@ -131,7 +131,7 @@ SEM_OBJS =	0a.o 0b.o 2.o 3a.o 3b.o 4a.o 4b.o 4c.o 5.o 6.o 7.o 8.o 9.o 10.o \
 			main.o misc.o nodes.o set.o smisc.o sspans.o units.o util.o vars.o
 
 adasem: $(SEM_OBJS) 
-	$(LINKER) -o adasem -g $(SEM_OBJS) -lm >sem.lm
+	$(LINKER) -o adasem -g $(SEM_OBJS) $(LFLAGS) -lm >sem.lm
 
 
 #--------------------------------------#
@@ -151,10 +151,10 @@ BND_OBJS =	12b.o arith.o axqr.o axqw.o blib.o bmisc.o bmain.o bnodes.o \
 			opdesc.o peep.o read.o segment.o sep.o set.o smisc.o util.o vars.o
 
 adagen: gvars.c vars.c hdr.h ghdr.h libhdr.h $(GEN_OBJS) 
-	$(LINKER) -o adagen -g $(GEN_OBJS) -lm >gen.lm
+	$(LINKER) -o adagen -g $(GEN_OBJS) $(LFLAGS) -lm >gen.lm
 
 adabind: vars.c gvars.c hdr.h ghdr.h libhdr.h $(BND_OBJS)
-	$(LINKER) -o adabind -g $(BND_OBJS) -lm >bind.lm
+	$(LINKER) -o adabind -g $(BND_OBJS) $(LFLAGS) -lm >bind.lm
 
 # $(GEN_OBJS): gvars.c vars.c hdr.h libhdr.h
 
@@ -163,13 +163,13 @@ adabind: vars.c gvars.c hdr.h ghdr.h libhdr.h $(BND_OBJS)
 # Dependence on gmisc.o causes extra compile but gets dependencies right.
 bmisc.o: gmisc.o
 	cp gmisc.c bmisc.c
-	$(CC) -DBINDER -c -g bmisc.c
+	$(CC) -DBINDER -c -g bmisc.c $(CFLAGS)
 	rm -f bmisc.c
 
 # Look at last comment.
 bnodes.o: gnodes.o
 	cp gnodes.c bnodes.c
-	$(CC) -DBINDER -c -g bnodes.c
+	$(CC) -DBINDER -c -g bnodes.c $(CFLAGS)
 	rm -f bnodes.c
 
 #---------------------------#
@@ -185,7 +185,7 @@ XINT_OBJS =	inta.o load.o
 
 adaexec: ivars.c inta_interface.o load_interface.o $(INT_OBJS)
 	$(LINKER) -o adaexec -g $(LFLAGS) $(INT_OBJS) $(XINT_OBJS) -lm >int.lm
-	ld -r -x load_interface.o $(INT_OBJS) inta_interface.o >adaint.lm
+	ld -r -x load_interface.o $(LFLAGS) $(INT_OBJS) inta_interface.o >adaint.lm
 	mv a.out adaint
 
 #inta_interface.o: inta.o
